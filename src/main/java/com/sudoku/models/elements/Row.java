@@ -7,7 +7,6 @@ public class Row {
         points = new Point[size * size];
         for (int i = 0; i < row.length; i++) {
             points[i] = new Point(size, row[i] != 0 ? row[i] : null);
-            System.out.println("Привет");
         }
     }
 }
