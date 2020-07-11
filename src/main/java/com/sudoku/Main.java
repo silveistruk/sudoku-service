@@ -9,7 +9,12 @@ public class Main {
         Main main = new Main();
         InputSudokuModel inputSudokuModel = main.getInputSudokuModel();
         int[][] points = main.getArraySudoku(inputSudokuModel);
-        Sudoku sudoku = new ClassicSudoku(points);
+        Sudoku sudoku;
+        if (inputSudokuModel.getSize() == ClassicSudoku.SIZE) {
+            sudoku = new ClassicSudoku(points);
+        } else {
+            return;
+        }
         new SudokuSolver(sudoku).solveSudoku();
     }
 
@@ -44,7 +49,7 @@ public class Main {
             validateSudokuElementsLength(rowLength, sudokuDigits.length);
             int[] row = new int[rowLength];
             for (int j = 0; j < rowLength; j++) {
-                row[j] = Integer.parseInt(sudokuDigits[j]);
+                row[j] = validateSudokuDigit(sudokuDigits[j], rowLength);
             }
             points[i] = row;
         }
@@ -55,6 +60,14 @@ public class Main {
         if (!inputSudokuData.matches("^[0-9\\n ]+$")) {
             throw new RuntimeException("inputSudokuData can contain positive numbers, spaces and new line characters only!");
         }
+    }
+
+    private int validateSudokuDigit(String inputDigit, int rowLength) {
+        int digit = Integer.parseInt(inputDigit);
+        if (digit > rowLength || digit < 0) {
+            throw new RuntimeException("Sudoku digit must be positive and not more than " + rowLength);
+        }
+        return digit;
     }
 
     private void validateSudokuElementsLength(int expectedLength, int actualLength) {

@@ -28,23 +28,43 @@ public abstract class Sudoku {
     }
 
     private void validateSudoku(int size, int[][] intPoints) {
-        int rowLength = intPoints.length;
         validateSize(size);
-        Set<Integer> numbers;
-        for (int[] row: intPoints) {
-            numbers = new HashSet<>(intPoints.length, 1);
-            for (int digit : row) {
-                checkRepeatedNumbers(numbers, digit);
-            }
-        }
-        for (int i = 0; i < intPoints.length; i++) {
-            numbers = new HashSet<>(intPoints.length, 1);
-            for (int[] intPoint : intPoints) {
-                checkRepeatedNumbers(numbers, intPoint[i]);
-            }
-        }
-        for (int i = 0; i < size; i++) {
+        checkRepeatsInRows(intPoints);
+        checkRepeatsInColumns(intPoints);
+        checkRepeatsInSquares(intPoints, size);
+    }
 
+    private void checkRepeatsInRows(int[][] intPoints) {
+        Set<Integer> numbersSet = new HashSet<>(intPoints.length, 1);
+        for (int[] row: intPoints) {
+            numbersSet.clear();
+            for (int digit : row) {
+                checkRepeatedNumbers(numbersSet, digit);
+            }
+        }
+    }
+
+    private void checkRepeatsInColumns(int[][] intPoints) {
+        Set<Integer> numbersSet = new HashSet<>(intPoints.length, 1);
+        for (int i = 0; i < intPoints.length; i++) {
+            numbersSet.clear();
+            for (int[] rowPoints : intPoints) {
+                checkRepeatedNumbers(numbersSet, rowPoints[i]);
+            }
+        }
+    }
+
+    private void checkRepeatsInSquares(int[][] intPoints, int size) {
+        Set<Integer> numbersSet = new HashSet<>(intPoints.length, 1);
+        for (int i = 0; i < size; i++) {
+            for (int j = 0; j < size; j++) {
+                numbersSet.clear();
+                for (int k = 0; k < size; k++) {
+                    for (int l = 0; l < size; l++) {
+                        checkRepeatedNumbers(numbersSet, intPoints[i * size + k][j * size + l]);
+                    }
+                }
+            }
         }
     }
 
