@@ -1,16 +1,18 @@
 package com.sudoku.models.elements;
 
-public class Row {
+import lombok.Getter;
+
+@Getter
+public class Row extends SudokuBlock {
     private final Point[] points;
 
-    public Row(int size, int[] row) {
-        points = new Point[size * size];
-        for (int i = 0; i < row.length; i++) {
-            points[i] = new Point(size, row[i]);
-        }
+    public Row(int size, Point[] row) {
+        super(size);
+        points = row;
     }
 
-    public Point[] getPoints() {
-        return points;
+    public void addDigit(int size, int[] row, int index) {
+        Point point = points[index];
+        addDigit(row[index]);
     }
 }

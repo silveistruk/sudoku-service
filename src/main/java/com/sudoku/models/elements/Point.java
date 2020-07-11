@@ -1,19 +1,18 @@
 package com.sudoku.models.elements;
 
+import lombok.Getter;
+
 import java.util.HashSet;
 import java.util.Set;
 
+@Getter
 public class Point {
     private Integer value;
     private final Set<Integer> possibleValues;
 
     public Point(int size, Integer value) {
         this.value = defineValue(value);
-        possibleValues = new HashSet<Integer>(size * size, 1);
-    }
-
-    private Integer defineValue(int value) {
-        return value != 0 ? value : null;
+        possibleValues = new HashSet<>(size * size, 1);
     }
 
     public void setValue(int value) {
@@ -21,16 +20,8 @@ public class Point {
         this.value = value;
     }
 
-    public Integer getValue() {
-        return value;
-    }
-
     public int getPossibleValuesCount() {
         return possibleValues.size();
-    }
-
-    public Set<Integer> getPossibleValues() {
-        return possibleValues;
     }
 
     public boolean addPossibleValue(int possibleValue) {
@@ -39,5 +30,9 @@ public class Point {
 
     public boolean deletePossibleValue(int possibleValue) {
         return possibleValues.remove(possibleValue);
+    }
+
+    private Integer defineValue(int value) {
+        return value != 0 ? value : null;
     }
 }
